@@ -1,0 +1,65 @@
+/*
+ * Copyright (c) 2011.
+ * Author Kelly Robinson.
+ */
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+group = 'org.kar'
+version = '0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def HAMCREST = ['org.hamcrest:hamcrest-core:latest.release', 'org.hamcrest:hamcrest-library:latest.release']
+
+dependencies {
+    compile gradleApi()
+    compile 'org.slf4j:slf4j-simple:1.6.1'
+    groovy 'org.codehaus.groovy:groovy:1.8.0'
+    testCompile 'junit:junit:latest.release'
+    testCompile HAMCREST
+}
+
+idea {
+    module {
+        gradleCacheVariable = 'GRADLE_CACHE'
+        downloadJavadoc = true
+        outputDir = "$rootProject.projectDir/intellij/out" as File
+        testOutputDir = "$rootProject.projectDir/intellij/testOut" as File
+    }
+}
+
+idea {
+    project {
+        ipr {
+            withXml { provider ->
+                def node = provider.asNode()
+                // Use git
+                def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+                vcsConfig.mapping[0].'@vcs' = 'Git'
+
+                // Set gradle home
+                def gradleSettings = node.appendNode('component', [name: 'GradleSettings'])
+                gradleSettings.appendNode('option', [name: 'SDK_HOME', value: gradle.gradleHomeDir.absolutePath])
+            }
+            whenMerged { project ->
+                project.jdk.languageLevel = 'JDK_1_6'
+                project.jdk.projectJdkName = '1.6'
+            }
+        }
+    }
+}
+
+defaultTasks 'clean', 'build'
+
+ant.importBuild('src/main/resources/build.xml')
+
+task importTaskWithExistingName(type: GradleBuild) { GradleBuild antBuild ->
+    antBuild.buildFile ='buildWithClean.gradle'
+    antBuild.tasks = ['clean', 'dist']
+}
+

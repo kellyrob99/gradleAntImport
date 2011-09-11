@@ -1,0 +1,2 @@
+//ant.foo = 'notBar'
+ant.importBuild('src/main/resources/buildWithClean.xml')
