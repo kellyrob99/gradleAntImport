@@ -56,6 +56,7 @@ idea {
 
 defaultTasks 'clean', 'build'
 
+//ant.foo='NotBar'
 ant.importBuild('src/main/resources/build.xml')
 
 task importTaskWithExistingName(type: GradleBuild) { GradleBuild antBuild ->
