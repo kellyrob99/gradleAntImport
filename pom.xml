@@ -12,7 +12,33 @@
                 <version>1.6</version>
                 <executions>
                     <execution>
-                        <id>import</id>
+                        <id>one</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <ant antfile="${basedir}/src/main/resources/build.xml">
+                                    <target name="all"/>
+                                    <property name="foo" value="NotBar"/>
+                                </ant>
+                                <ant antfile="${basedir}/src/main/resources/buildWithClean.xml">
+                                    <target name="clean"/>
+                                    <property name="foo" value="NotBarWithClean"/>
+                                </ant>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>two</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>run</goal>
@@ -20,9 +46,8 @@
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/resources/build.xml">
-                                    <target name="clean"/>
-                                    <target name="dist"/>
-                                    <property name="foo" value="NotBar"/>
+                                    <target name="all"/>
+                                    <property name="foo" value="NotBar2"/>
                                 </ant>
                             </tasks>
                         </configuration>

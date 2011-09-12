@@ -14,14 +14,14 @@ repositories {
     mavenCentral()
 }
 
-def HAMCREST = ['org.hamcrest:hamcrest-core:latest.release', 'org.hamcrest:hamcrest-library:latest.release']
+//def HAMCREST = ['org.hamcrest:hamcrest-core:latest.release', 'org.hamcrest:hamcrest-library:latest.release']
 
 dependencies {
-    compile gradleApi()
-    compile 'org.slf4j:slf4j-simple:1.6.1'
+//    compile gradleApi()
+//    compile 'org.slf4j:slf4j-simple:1.6.1'
     groovy 'org.codehaus.groovy:groovy:1.8.0'
-    testCompile 'junit:junit:latest.release'
-    testCompile HAMCREST
+//    testCompile 'junit:junit:latest.release'
+//    testCompile HAMCREST
 }
 
 idea {
@@ -56,11 +56,22 @@ idea {
 
 defaultTasks 'clean', 'build'
 
-//ant.foo='NotBar'
+ant.foo='NotBar'
 ant.importBuild('src/main/resources/build.xml')
+ant.'dist.dir' = buildDir
+ant.foo='NotBarAgain'
 
+/**
+ *  Due to http://issues.gradle.org/browse/GRADLE-427 the dependencies specifried for an Ant task will be executed
+ *  in alphabetical order, instead of the order in which they are specified.
+ */
 task importTaskWithExistingName(type: GradleBuild) { GradleBuild antBuild ->
     antBuild.buildFile ='buildWithClean.gradle'
-    antBuild.tasks = ['clean', 'dist']
+    antBuild.tasks = ['all']
+}
+
+task importTasksRunInOrder(type: GradleBuild) { GradleBuild antBuild ->
+    antBuild.buildFile ='buildWithClean.gradle'
+    antBuild.tasks = ['dist', 'clean']
 }
 

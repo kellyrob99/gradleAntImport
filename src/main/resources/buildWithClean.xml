@@ -1,25 +1,19 @@
 <?xml version="1.0"?>
-<project name="build" default="default">
-
+<project name="buildWithClean" default="all">
     <echo>Building ${ant.file}</echo>
 
     <property file="build.properties"/>
     <property name="root.dir" location="."/>
 
-    <target name="default" depends="all"
-            description="default: build 'all'"/>
-
     <target name="dist" description="Build the distribution">
         <property name="dist.dir" location="dist"/>
-        <echo>in ${basedir}</echo>
         <echo>dist.dir=${dist.dir}</echo>
         <echo>foo=${foo}</echo>
     </target>
 
-    <target name="all" description="Build everything" depends="dist"/>
-
     <target name="clean" description="clean up">
-        <echo>Called clean task in ant build</echo>
+        <echo>Called clean task in ant build with foo = ${foo}</echo>
     </target>
 
+    <target name="all" description="Build everything" depends="dist,clean"/>
 </project>
