@@ -8,28 +8,19 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 group = 'org.kar'
-version = '0.1-SNAPSHOT'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-//def HAMCREST = ['org.hamcrest:hamcrest-core:latest.release', 'org.hamcrest:hamcrest-library:latest.release']
-
 dependencies {
-//    compile gradleApi()
-//    compile 'org.slf4j:slf4j-simple:1.6.1'
     groovy 'org.codehaus.groovy:groovy:1.8.0'
-//    testCompile 'junit:junit:latest.release'
-//    testCompile HAMCREST
 }
 
 idea {
     module {
-        gradleCacheVariable = 'GRADLE_CACHE'
         downloadJavadoc = true
-        outputDir = "$rootProject.projectDir/intellij/out" as File
-        testOutputDir = "$rootProject.projectDir/intellij/testOut" as File
     }
 }
 
@@ -56,10 +47,9 @@ idea {
 
 defaultTasks 'clean', 'build'
 
-ant.foo='NotBar'
+ant.foo='NotBarFromGradle'
 ant.importBuild('src/main/resources/build.xml')
-ant.'dist.dir' = buildDir
-ant.foo='NotBarAgain'
+ant.foo='NotBarFromGradleAgain'
 
 /**
  *  Due to http://issues.gradle.org/browse/GRADLE-427 the dependencies specifried for an Ant task will be executed
@@ -74,4 +64,3 @@ task importTasksRunInOrder(type: GradleBuild) { GradleBuild antBuild ->
     antBuild.buildFile ='buildWithClean.gradle'
     antBuild.tasks = ['dist', 'clean']
 }
-
