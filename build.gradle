@@ -66,3 +66,12 @@ task importTasksRunInOrder(type: GradleBuild) { GradleBuild antBuild ->
     antBuild.buildFile ='buildWithClean.gradle'
     antBuild.tasks = ['dist', 'clean']
 }
+
+tasks.addRule("Pattern: a-<target> will execute a single <target> in the ant build") { String taskName ->
+    if (taskName.startsWith("a-")) {
+        task(taskName, type: GradleBuild) {
+            buildFile = 'buildWithClean.gradle'
+            tasks = [taskName - 'a-']
+        }
+    }
+}
