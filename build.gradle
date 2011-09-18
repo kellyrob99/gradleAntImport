@@ -24,6 +24,8 @@ idea {
     }
 }
 
+sourceSets.main.resources.srcDirs = []
+
 idea {
     project {
         ipr {

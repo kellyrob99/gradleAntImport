@@ -1,0 +1,8 @@
+"Command line invocation","Gradle Build Config","Effect","Result"
+"gradle dist","ant.importBuild('src/main/resources/build.xml')","build.properties value loaded from ant build is used","foo=bar"
+"gradle dist -Dfoo=NotBar","ant.importBuild('src/main/resources/build.xml')","command line property is used","foo=NotBar"
+"gradle dist -Dfoo=NotBar","ant.foo='NotBarFromGradle' 
+ant.importBuild('src/main/resources/build.xml')","Gradle build property is used","foo=NotBarFromGradle"
+"gradle dist -Dfoo=NotBar","ant.foo='NotBarFromGradle'
+ant.importBuild('src/main/resources/build.xml')
+ant.foo='NotBarFromGradleAgain'","Gradle build property override is used","foo=NotBarFromGradleAgain"

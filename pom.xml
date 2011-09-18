@@ -44,12 +44,12 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <ant antfile="${basedir}/src/main/resources/build.xml">
                                     <target name="all"/>
                                     <property name="foo" value="NotBar2"/>
                                 </ant>
-                            </tasks>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>

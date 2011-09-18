@@ -1,0 +1,12 @@
+target/
+build/
+.gradle/
+gradle/
+gradlew*
+.idea/**
+*.iml
+*.ipr
+*.iws
+grails-jira-plugin*.zip
+plugin.xml
+
